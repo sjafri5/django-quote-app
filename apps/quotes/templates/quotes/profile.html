@@ -20,7 +20,6 @@
           <ul class="messages">
             {% for quote in quotes %}
               <h4>{{ quote.author }} - {{ quote.description}}</h4>
-              <h5> {% if quote.likeable %} <a href='/quotes/like/{{quote.id}}'>&#8607;</a> {% endif %} {{quote.likes}} Likes</h5>
             {% endfor %}
           </ul>
         </div>
