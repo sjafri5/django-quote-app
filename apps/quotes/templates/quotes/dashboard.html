@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Index</title>
-    {% load static %}
+    {% include "quotes/static.html" %}   
   </head>
   <body>
     {% include "quotes/messages_template.html" %}   
@@ -13,9 +13,9 @@
 
     <form action='/quotes/create' method='post'>
       {% csrf_token %}
-      <div class="container">
-        <h1>Welcome {{ user.first_name }}!</h1>
-        <h3>Add A Quote</h3>
+      <div class="container foo">
+        <h1 id='foo'>Welcome {{ user.first_name }}!</h1>
+        <h3 class='foo'>Add A Quote</h3>
         <hr>
 
         <label for="author"><b>Author</b></label>
