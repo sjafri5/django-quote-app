@@ -76,8 +76,8 @@ def like_quote(request, id):
 
 def create_quote(request):
     if request.method == 'POST':
-        if not request.POST['description'] or not request.POST['author']:
-            messages.error(request, 'Please enter a value for both author and quote.')
+        if len(request.POST['description']) < 10 or len(request.POST['author']) < 3:
+            messages.error(request, 'Please enter a value for both author and quote. Author must be 3 characters; Quote must be at least 10.')
             return redirect('/quotes')
 
         Quote.objects.create(
