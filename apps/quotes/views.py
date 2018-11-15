@@ -65,8 +65,9 @@ def destroy_quote(request, id):
 
 def create_quote(request):
     if request.method == 'POST':
-        print('ffffffffffffff')
-        print(request.POST)
+        if not request.POST['description'] or not request.POST['author']:
+            messages.error(request, 'Please enter a value for both author and quote.')
+            return redirect('/dashboard')
 
         Quote.objects.create(
                 description = request.POST['description'],
@@ -74,15 +75,30 @@ def create_quote(request):
                 user_id = request.session['id'])
     return redirect('/dashboard')
 
+def profile(request, id):
+    # if request.method == 'POST':
+        # if not request.POST['description'] or not request.POST['author']:
+            # messages.error(request, 'Please enter a value for both author and quote.')
+            # return redirect('/dashboard')
+
+        # Quote.objects.create(
+                # description = request.POST['description'],
+                # author = request.POST['author'],
+                # user_id = request.session['id'])
+    return render(request, "quotes/profile.html")
+
+def my_account(request):
+    return render(request, "quotes/my_account.html")
+
 def dashboard(request):
     signed_in = request.session.get('id', False)
     if not signed_in:
         return redirect('/')
     user = User.objects.get(id = request.session['id'])
     quote_objects = Quote.objects.all()
+    print(quote_objects)
     quotes = []
     for quote_object in quote_objects:
-        quotes= []
         deletable = user.id == quote_object.user.id
         quote = {
             'id': quote_object.id,
@@ -94,6 +110,8 @@ def dashboard(request):
         }
         quotes.append(quote)
 
+    print(quotes)
+    print('asdffffffffffffffffffffffff')
     context = {
         'user': user,
         'quotes': quotes,
