@@ -48,14 +48,22 @@ def login(request):
 
     if (bcrypt.checkpw(request.POST.get("password").encode(), user.password.encode())):
         messages.success(request, 'welcome back!')
+        request.session['id'] = user.id
         return redirect('/dashboard')
     else:
         messages.error(request, 'invalid email/password')
         return redirect('/')
 
+def logout(request):
+    del request.session['id']
+    return redirect('/')
 
 def dashboard(request):
+    signed_in = request.session.get('id', False)
+    if not signed_in:
+        return redirect('/')
     user = User.objects.get(id = request.session['id'])
+    # print()
     # msgs = Message.objects.all()
     # comment = Comment.objects.all().values()
     # user_messages = []

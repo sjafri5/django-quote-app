@@ -7,3 +7,9 @@ class User(models.Model):
     password= models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+
+class Quote(models.Model):
+    description = models.TextField()
+    user = models.ForeignKey(User, related_name="quotes")
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
