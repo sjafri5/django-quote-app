@@ -58,34 +58,45 @@ def logout(request):
     del request.session['id']
     return redirect('/')
 
+def destroy_quote(request, id):
+    quote = Quote.objects.get(id = id)
+    quote.delete()
+    return redirect('/dashboard')
+
+def create_quote(request):
+    if request.method == 'POST':
+        print('ffffffffffffff')
+        print(request.POST)
+
+        Quote.objects.create(
+                description = request.POST['description'],
+                author = request.POST['author'],
+                user_id = request.session['id'])
+    return redirect('/dashboard')
+
 def dashboard(request):
     signed_in = request.session.get('id', False)
     if not signed_in:
         return redirect('/')
     user = User.objects.get(id = request.session['id'])
-    # print()
-    # msgs = Message.objects.all()
-    # comment = Comment.objects.all().values()
-    # user_messages = []
-    # for msg in msgs:
-        # comments = []
-        # for comment in msg.comments.all():
-            # user = User.objects.get(id=comment.user_id)
-            # comment_object = {
-                    # 'comment': comment.comment,
-                    # 'created_at': comment.created_at,
-                    # 'username': user.first_name + ' ' + user.last_name,
-                    # }
-            # comments.append(comment_object)
-        # message_object = {
-            # 'message': msg.message,
-            # 'comments': comments
-        # }
-        # user_messages.append(message_object)
-
+    quote_objects = Quote.objects.all()
+    quotes = []
+    for quote_object in quote_objects:
+        quotes= []
+        deletable = user.id == quote_object.user.id
+        quote = {
+            'id': quote_object.id,
+            'description': quote_object.description,
+            'author':  quote_object.author,
+            'posted_by_id':  quote_object.user.id,
+            'posted_by':  quote_object.user.first_name + ' ' + quote_object.user.last_name,
+            'deletable': deletable
+        }
+        quotes.append(quote)
 
     context = {
         'user': user,
+        'quotes': quotes,
     }
 
     return render(request, "quotes/dashboard.html", context)

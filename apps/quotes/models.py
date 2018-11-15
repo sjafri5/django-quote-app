@@ -10,6 +10,7 @@ class User(models.Model):
 
 class Quote(models.Model):
     description = models.TextField()
+    author = models.CharField(max_length=255)
     user = models.ForeignKey(User, related_name="quotes")
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
