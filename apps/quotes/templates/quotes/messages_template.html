@@ -3,14 +3,14 @@
     {% if message.tags == 'error' %} 
       <div class="alert 
         alert-danger" role="alert">
-          <strong>{{ message }}</strong> {{message.tags}}
+          <strong>{{ message.tags }}</strong> {{message}}
         </div>
     {% endif %}
 
     {% if message.tags == 'success' %} 
       <div class="alert 
         alert-success" role="alert">
-          <strong>{{ message }}</strong> {{message.tags}}
+          <strong>{{ message.tags }}</strong> {{message}}
         </div>
     {% endif %}
     {% endfor %}

@@ -18,6 +18,10 @@ def register(request):
             messages.error(request, 'invalid email')
             error = True
 
+        if User.objects.filter(email=request.POST['email']).exists():
+            messages.error(request, 'duplicate email')
+            error = True
+
         pw = request.POST.get("password")
         pw_conf = request.POST.get("password_confirmation")
         if (pw != pw_conf):
