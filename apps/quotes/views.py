@@ -83,6 +83,10 @@ def create_quote(request):
     return redirect('/dashboard')
 
 def profile(request, id):
+    signed_in = request.session.get('id', False)
+    if not signed_in:
+        return redirect('/')
+
     user = User.objects.get(id=id)
     quotes = Quote.objects.filter(user_id=id)
     context = {
@@ -93,17 +97,42 @@ def profile(request, id):
     return render(request, "quotes/profile.html", context)
 
 def my_account(request):
+    signed_in = request.session.get('id', False)
+    if not signed_in:
+        return redirect('/')
+
     user = User.objects.get(id = request.session['id'])
     context = { 'user': user }
     return render(request, "quotes/my_account.html", context)
 
 def edit_user(request, id):
     if request.method == 'POST':
+        error = False
+        if not request.POST['first_name'] or not request.POST['last_name']:
+            messages.error(request, 'First and Last name must be at least one character long')
+            error = True
+
+        valid_email = re.search(r'\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b', request.POST['email'], re.I)
+
+        if not valid_email:
+            messages.error(request, 'invalid email')
+            error = True
+
+        if User.objects.filter(email=request.POST['email']).exclude(id=id).exists():
+            messages.error(request, 'duplicate email')
+            error = True
+
+        if error:
+            return redirect('/users/my_account')
+
+
         user = User.objects.get(id = request.session['id'])
         user.first_name = request.POST['first_name']
         user.last_name = request.POST['last_name']
         user.email= request.POST['email']
         user.save()
+        messages.success(request, 'updated!')
+
         context = { 'user': user }
         return redirect('/users/my_account')
 
