@@ -6,36 +6,48 @@
     <a href='/logout'>sign out</a>
     <br/>
     <a href='/users/my_account'>edit my account</a>
-
-    <form action='/quotes/create' method='post'>
-      {% csrf_token %}
-      <div class="container foo">
-        <h1 id='foo'>Welcome {{ user.first_name }}!</h1>
-        <h3 class='foo'>Add A Quote</h3>
-        <hr>
-
-        <label for="author"><b>Author</b></label>
-        <input type="text" placeholder="Enter Author's Name" name="author">
-
-        <label for="description"><b>Quote</b></label>
-        <input type="text" placeholder="Enter Quote" name="description">
-        <hr>
-        <button type="submit" class="registerbtn">Submit</button>
+    <div class="container">
+      <div class="row">
+        <h1>Welcome {{ user.first_name }}!</h1>
       </div>
-    </form>
-    <h3>Quote Wall</h3>
+      <div class="row">
+        <div class="col-8">
+          <h3>Quote Wall</h3>
 
-    <ul class="messages">
-      {% for quote in quotes %}
-        <h4>{{ quote.author }} - {{ quote.description}}</h4>
-        <h5> {% if quote.likeable %} <a href='/quotes/like/{{quote.id}}'>&#8607;</a> {% endif %} {{quote.likes}} Likes</h5>
-        
-        <h5>Posted By: <a href="users/{{quote.posted_by_id}}">{{quote.posted_by}}</a></h5>
+          <ul class="messages">
+            {% for quote in quotes %}
+              <h4>{{ quote.author }} - {{ quote.description}}</h4>
+              <h5> {% if quote.likeable %} <a href='/quotes/like/{{quote.id}}'>&#8607;</a> {% endif %} {{quote.likes}} Likes</h5>
+              
+              <h5>Posted By: <a href="users/{{quote.posted_by_id}}">{{quote.posted_by}}</a></h5>
 
-        {% if quote.deletable %}
-        <h5><a href="quotes/destroy/{{quote.id}}">delete</a></h5>
-        {% endif %}
-      {% endfor %}
-    </ul>
+              {% if quote.deletable %}
+              <h5><a href="quotes/destroy/{{quote.id}}">delete</a></h5>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="col-4">
+          <form action='/quotes/create' method='post'>
+            {% csrf_token %}
+              <h3>Add A Quote</h3>
+              <div class="form-group">
+
+                <div class="form-group">
+                  <label for="author"><b>Author</b></label>
+                  <input type="text" placeholder="Enter Author's Name" name="author">
+                </div>
+
+                <div class="form-group">
+                  <label for="description"><b>Quote</b></label>
+                  <input type="text" placeholder="Enter Quote" name="description">
+                </div>
+                <button type="submit" class="registerbtn">Submit</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
   </body>
 </html>
