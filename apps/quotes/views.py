@@ -161,7 +161,6 @@ def dashboard(request):
             'posted_by':  quote_object.user.first_name + ' ' + quote_object.user.last_name,
             'deletable': deletable
         }
-        # print(quote)
         quotes.append(quote)
 
     context = {
