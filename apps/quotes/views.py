@@ -41,7 +41,7 @@ def register(request):
         request.session['id'] = user.id
         
         messages.success(request, 'registered!')
-        return redirect('/dashboard')
+        return redirect('/quotes')
 
 def login(request):
     try:
@@ -53,7 +53,7 @@ def login(request):
     if (bcrypt.checkpw(request.POST.get("password").encode(), user.password.encode())):
         messages.success(request, 'welcome back!')
         request.session['id'] = user.id
-        return redirect('/dashboard')
+        return redirect('/quotes')
     else:
         messages.error(request, 'invalid email/password')
         return redirect('/')
@@ -65,26 +65,26 @@ def logout(request):
 def destroy_quote(request, id):
     quote = Quote.objects.get(id = id)
     quote.delete()
-    return redirect('/dashboard')
+    return redirect('/quotes')
 
 def like_quote(request, id):
     user = User.objects.get(id = request.session['id'])
     quote = Quote.objects.get(id = id)
     quote.likes.add(user)
     quote.save()
-    return redirect('/dashboard')
+    return redirect('/quotes')
 
 def create_quote(request):
     if request.method == 'POST':
         if not request.POST['description'] or not request.POST['author']:
             messages.error(request, 'Please enter a value for both author and quote.')
-            return redirect('/dashboard')
+            return redirect('/quotes')
 
         Quote.objects.create(
                 description = request.POST['description'],
                 author = request.POST['author'],
                 user_id = request.session['id'])
-    return redirect('/dashboard')
+    return redirect('/quotes')
 
 def profile(request, id):
     signed_in = request.session.get('id', False)

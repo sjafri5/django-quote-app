@@ -4,9 +4,10 @@ urlpatterns = [
     url(r'^$', views.index),
     url(r'^register/$', views.register),
     url(r'^login/$', views.login),
-    url(r'^dashboard$', views.dashboard),
     url(r'^logout$', views.logout),
 
+    url(r'^quotes$', views.dashboard),
+    # url(r'^dashboard$', views.dashboard),
     url(r'^quotes/destroy/(?P<id>\d+)/$', views.destroy_quote),
     url(r'^quotes/create$', views.create_quote),
     url(r'^quotes/like/(?P<id>\d+)/$', views.like_quote),
