@@ -8,5 +8,25 @@
   <body>
     {% include "quotes/messages_template.html" %}   
     <h1>My Account</h1>
+
+    <form action='/users/edit/{{user.id}}' method='post'>
+      {% csrf_token %}
+      <div class="container">
+        <h3>Edit my Details</h3>
+        <hr>
+        <label for="first_name"><b>First Name</b></label>
+        <input type="text" placeholder="First Name" name="first_name" value={{user.first_name}} required>
+
+        <label for="last_name"><b>Last Name</b></label>
+        <input type="text" placeholder="Last Name" name="last_name" value={{user.last_name}} required>
+
+        <label for="email"><b>Email</b></label>
+        <input type="text" placeholder="Enter Email" name="email" value={{user.email}} required>
+
+        <hr>
+
+        <button type="submit" class="registerbtn">Edit</button>
+      </div>
+    </form>
   </body>
 </html>

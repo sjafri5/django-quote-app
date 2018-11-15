@@ -63,6 +63,13 @@ def destroy_quote(request, id):
     quote.delete()
     return redirect('/dashboard')
 
+def like_quote(request, id):
+    user = User.objects.get(id = request.session['id'])
+    quote = Quote.objects.get(id = id)
+    quote.likes.add(user)
+    quote.save()
+    return redirect('/dashboard')
+
 def create_quote(request):
     if request.method == 'POST':
         if not request.POST['description'] or not request.POST['author']:
@@ -86,7 +93,19 @@ def profile(request, id):
     return render(request, "quotes/profile.html", context)
 
 def my_account(request):
-    return render(request, "quotes/my_account.html")
+    user = User.objects.get(id = request.session['id'])
+    context = { 'user': user }
+    return render(request, "quotes/my_account.html", context)
+
+def edit_user(request, id):
+    if request.method == 'POST':
+        user = User.objects.get(id = request.session['id'])
+        user.first_name = request.POST['first_name']
+        user.last_name = request.POST['last_name']
+        user.email= request.POST['email']
+        user.save()
+        context = { 'user': user }
+        return redirect('/users/my_account')
 
 def dashboard(request):
     signed_in = request.session.get('id', False)
@@ -94,22 +113,24 @@ def dashboard(request):
         return redirect('/')
     user = User.objects.get(id = request.session['id'])
     quote_objects = Quote.objects.all()
-    print(quote_objects)
     quotes = []
     for quote_object in quote_objects:
         deletable = user.id == quote_object.user.id
+        likeable = not quote_object.likes.all().filter(id=user.id).exists() 
+        
         quote = {
             'id': quote_object.id,
             'description': quote_object.description,
+            'likes': quote_object.likes.all().count(),
+            'likeable': likeable,
             'author':  quote_object.author,
             'posted_by_id':  quote_object.user.id,
             'posted_by':  quote_object.user.first_name + ' ' + quote_object.user.last_name,
             'deletable': deletable
         }
+        # print(quote)
         quotes.append(quote)
 
-    print(quotes)
-    print('asdffffffffffffffffffffffff')
     context = {
         'user': user,
         'quotes': quotes,

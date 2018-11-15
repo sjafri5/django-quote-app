@@ -9,7 +9,9 @@ urlpatterns = [
 
     url(r'^quotes/destroy/(?P<id>\d+)/$', views.destroy_quote),
     url(r'^quotes/create$', views.create_quote),
+    url(r'^quotes/like/(?P<id>\d+)/$', views.like_quote),
 
     url(r'^users/my_account$', views.my_account),
+    url(r'^users/edit/(?P<id>\d+)$', views.edit_user),
     url(r'^users/(?P<id>\d+)/$', views.profile),
 ]
