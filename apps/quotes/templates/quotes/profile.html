@@ -7,8 +7,6 @@
         <a class="navbar-brand" href="/users/my_account">Edit My Account</a>
         <a class="navbar-brand" href="/dashboard">Dashboard</a>
     </nav>
-    <h2>User Profile for {{user.first_name}} {{user.last_name}}</h2>
-
     <div class="container">
       <div class="row">
         <h2>User Profile for {{user.first_name}} {{user.last_name}}</h2>
@@ -19,7 +17,7 @@
 
           <ul class="messages">
             {% for quote in quotes %}
-              <h4>{{ quote.author }} - {{ quote.description}}</h4>
+              <h4>{{ quote.author }} - "{{ quote.description}}"</h4>
             {% endfor %}
           </ul>
         </div>
