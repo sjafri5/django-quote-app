@@ -11,5 +11,5 @@ urlpatterns = [
     url(r'^quotes/create$', views.create_quote),
 
     url(r'^users/my_account$', views.my_account),
-    url(r'^users/(?P<id>\d+)/$', views.show_user),
+    url(r'^users/(?P<id>\d+)/$', views.profile),
 ]

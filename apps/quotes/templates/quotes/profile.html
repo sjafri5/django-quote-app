@@ -7,6 +7,12 @@
   </head>
   <body>
     {% include "quotes/messages_template.html" %}   
-    <h1>User Profile</h1>
+    <h2>User Profile for {{user.first_name}} {{user.last_name}}</h2>
+    <a href='/dashboard'>back to dashboard</a>
+
+    {% for quote in quotes %}
+      <h4>{{ quote.author }} - {{ quote.description}}</h4>
+      <h5>5 Likes</h5>
+    {% endfor %}
   </body>
 </html>

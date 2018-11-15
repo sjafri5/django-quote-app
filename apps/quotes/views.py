@@ -76,16 +76,14 @@ def create_quote(request):
     return redirect('/dashboard')
 
 def profile(request, id):
-    # if request.method == 'POST':
-        # if not request.POST['description'] or not request.POST['author']:
-            # messages.error(request, 'Please enter a value for both author and quote.')
-            # return redirect('/dashboard')
+    user = User.objects.get(id=id)
+    quotes = Quote.objects.filter(user_id=id)
+    context = {
+            'user': user,
+            'quotes': quotes
+            }
 
-        # Quote.objects.create(
-                # description = request.POST['description'],
-                # author = request.POST['author'],
-                # user_id = request.session['id'])
-    return render(request, "quotes/profile.html")
+    return render(request, "quotes/profile.html", context)
 
 def my_account(request):
     return render(request, "quotes/my_account.html")
