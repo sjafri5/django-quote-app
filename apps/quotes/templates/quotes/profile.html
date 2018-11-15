@@ -2,13 +2,29 @@
 <html>
   {% include "quotes/head.html" %}   
   <body>
-    {% include "quotes/messages_template.html" %}   
+    <nav class="navbar navbar-dark bg-faded">
+        <a class="navbar-brand" href="/logout">Sign Out</a>
+        <a class="navbar-brand" href="/users/my_account">Edit My Account</a>
+        <a class="navbar-brand" href="/dashboard">Dashboard</a>
+    </nav>
     <h2>User Profile for {{user.first_name}} {{user.last_name}}</h2>
-    <a href='/dashboard'>back to dashboard</a>
 
-    {% for quote in quotes %}
-      <h4>{{ quote.author }} - {{ quote.description}}</h4>
-      <h5>5 Likes</h5>
-    {% endfor %}
+    <div class="container">
+      <div class="row">
+        <h2>User Profile for {{user.first_name}} {{user.last_name}}</h2>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <h3>Quote Wall</h3>
+
+          <ul class="messages">
+            {% for quote in quotes %}
+              <h4>{{ quote.author }} - {{ quote.description}}</h4>
+              <h5> {% if quote.likeable %} <a href='/quotes/like/{{quote.id}}'>&#8607;</a> {% endif %} {{quote.likes}} Likes</h5>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

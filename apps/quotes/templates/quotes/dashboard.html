@@ -2,10 +2,14 @@
 <html>
   {% include "quotes/head.html" %}   
   <body>
+    <nav class="navbar navbar-dark bg-faded">
+        <a class="navbar-brand" href="/logout">Sign Out</a>
+        <a class="navbar-brand" href="/users/my_account">Edit My Account</a>
+    </nav>
+
     {% include "quotes/messages_template.html" %}   
-    <a href='/logout'>sign out</a>
-    <br/>
-    <a href='/users/my_account'>edit my account</a>
+
+
     <div class="container">
       <div class="row">
         <h1>Welcome {{ user.first_name }}!</h1>
